@@ -1,7 +1,7 @@
 package bio.terra.cloudtransparency.iam;
 
-import bio.terra.common.tracing.OkHttpClientTracingInterceptor;
 import bio.terra.cloudtransparency.config.SamConfiguration;
+import bio.terra.common.tracing.OkHttpClientTracingInterceptor;
 import io.opentelemetry.api.OpenTelemetry;
 import java.util.Optional;
 import okhttp3.OkHttpClient;

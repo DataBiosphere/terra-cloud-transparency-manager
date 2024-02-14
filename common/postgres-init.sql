@@ -1,2 +1,2 @@
-CREATE ROLE dbuser WITH LOGIN ENCRYPTED PASSWORD 'dbpwd';
-CREATE DATABASE cloudtransparency_db OWNER dbuser;
+CREATE ROLE ctm_user WITH LOGIN ENCRYPTED PASSWORD 'ctm_pass';
+CREATE DATABASE cloudtransparency_db OWNER ctm_user;

@@ -6,13 +6,23 @@ env:
     host: ${DATABASE_HOSTNAME:127.0.0.1}:5432
     init: ${INIT_DB:false}
     name: ${DATABASE_NAME:cloudtransparency_db}
-    password: ${DATABASE_USER_PASSWORD:dbpwd}
-    user: ${DATABASE_USER:dbuser}
+    password: ${DATABASE_USER_PASSWORD:ctm_pass}
+    user: ${DATABASE_USER:ctm_user}
   tracing:
     exportEnabled: ${CLOUD_TRACE_ENABLED:false}
     samplingRate: ${SAMPLING_PROBABILITY:0}
   sam:
     basePath: ${SAM_ADDRESS:https://sam.dsde-dev.broadinstitute.org}
+  googleDirectoryApi:
+    apiServiceAccounts:
+      apiServiceAccountPath1: ${GOOGLE_DIRECTORY_API_SERVICE_ACCOUNT_1:/service/src/main/resources/rendered/admin-service-account-1.json}
+      apiServiceAccountPath2: ${GOOGLE_DIRECTORY_API_SERVICE_ACCOUNT_2:/service/src/main/resources/rendered/admin-service-account-2.json}
+      apiServiceAccountPath3: ${GOOGLE_DIRECTORY_API_SERVICE_ACCOUNT_3:/service/src/main/resources/rendered/admin-service-account-3.json}
+      apiServiceAccountPath4: ${GOOGLE_DIRECTORY_API_SERVICE_ACCOUNT_4:/service/src/main/resources/rendered/admin-service-account-4.json}
+      apiServiceAccountPath5: ${GOOGLE_DIRECTORY_API_SERVICE_ACCOUNT_5:/service/src/main/resources/rendered/admin-service-account-5.json}
+    directoryAdminAccounts:
+      directoryAdminEmail1: ${GOOGLE_DIRECTORY_ADMIN_EMAIL_1:sam-directory-admin1@test.firecloud.org}
+      directoryAdminEmail2: ${GOOGLE_DIRECTORY_ADMIN_EMAIL_2:sam-directory-admin2@test.firecloud.org}
 
 # Below here is non-deployment-specific
 
@@ -75,6 +85,17 @@ cloudtransparency:
 
   sam:
     basePath: ${env.sam.basePath}
+
+  google-directory-api:
+    adminServiceAccountPaths:
+      - ${env.googleDirectoryApi.apiServiceAccounts.apiServiceAccountPath1}
+      - ${env.googleDirectoryApi.apiServiceAccounts.apiServiceAccountPath2}
+      - ${env.googleDirectoryApi.apiServiceAccounts.apiServiceAccountPath3}
+      - ${env.googleDirectoryApi.apiServiceAccounts.apiServiceAccountPath4}
+      - ${env.googleDirectoryApi.apiServiceAccounts.apiServiceAccountPath5}
+    directoryAdminAccountEmails:
+      - ${env.googleDirectoryApi.directoryAdminAccounts.directoryAdminEmail1}
+      - ${env.googleDirectoryApi.directoryAdminAccounts.directoryAdminEmail2}
 
 terra.common:
   kubernetes:
