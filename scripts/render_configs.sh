@@ -20,3 +20,15 @@ $VAULT_COMMAND -field=data -format=json "secret/dsde/firecloud/$ENV/common/firec
 # We use the perf testrunner account in all environments.
 PERF_VAULT_PATH="secret/dsde/terra/kernel/perf/common"
 $VAULT_COMMAND -field=key "$PERF_VAULT_PATH/testrunner/testrunner-sa" | base64 -d > "$INTEGRATION_OUTPUT_LOCATION/testrunner-perf.json"
+
+
+
+SECRET_ENV_VARS_LOCATION="${SERVICE_OUTPUT_LOCATION}/secrets.env"
+gcloud container clusters get-credentials --zone us-central1-a --project broad-dsde-dev terra-dev
+
+# Secrets needed to talk to the Google Directory API
+kubectl -n terra-dev get secret admin-one-sa-secret -o 'go-template={{index .data "admin-service-account-1.json"}}' | base64 --decode > ${SERVICE_OUTPUT_LOCATION}/admin-service-account-1.json
+kubectl -n terra-dev get secret admin-two-sa-secret -o 'go-template={{index .data "admin-service-account-2.json"}}' | base64 --decode > ${SERVICE_OUTPUT_LOCATION}/admin-service-account-2.json
+kubectl -n terra-dev get secret admin-three-sa-secret -o 'go-template={{index .data "admin-service-account-3.json"}}' | base64 --decode > ${SERVICE_OUTPUT_LOCATION}/admin-service-account-3.json
+kubectl -n terra-dev get secret admin-four-sa-secret -o 'go-template={{index .data "admin-service-account-4.json"}}' | base64 --decode > ${SERVICE_OUTPUT_LOCATION}/admin-service-account-4.json
+kubectl -n terra-dev get secret admin-five-sa-secret -o 'go-template={{index .data "admin-service-account-5.json"}}' | base64 --decode > ${SERVICE_OUTPUT_LOCATION}/admin-service-account-5.json

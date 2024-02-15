@@ -3,7 +3,7 @@ Transactions are tricky, it is best not to have to think about them all the time
 Therefore, it is beneficial to have a consistent place in your code flow where transactions
 are handled. This is the transaction barrier.
 
-If transactions begin too early in the code flow there is risk of them running too long. For example,
+If transactions begin too early in the code flow there is risk of them running too long. For cloudTransparentAccess,
 making external api calls within a transaction. Long running transactions lead to scalability problems
 because there is are greater chances for transactions to collide leading to rollbacks and retries.
 

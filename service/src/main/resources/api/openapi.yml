@@ -37,42 +37,29 @@ paths:
           $ref: '#/components/responses/ServerError'
 
   # README /docs/api_versioning.md
-  /api/example/v1/message:
+  /api/cloudTransparentAccess/v1:
     get:
-      summary: Gets your message
-      tags: [ example ]
-      operationId: getMessage
+      summary: Gets cloud transparent accesses for the calling user
+      tags: [ cloudTransparentAccess ]
+      operationId: getCloudTransparentAccesses
       responses:
         '200':
-          description: Your message
+          description: The resources the user has cloud transparent access to
           content:
             application/json:
               schema:
-                type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudTransparentAccess'
         '404':
-          description: You don't have a message
+          description: User not found
         '500':
           $ref: '#/components/responses/ServerError'
-    post:
-      summary: Stores your message
-      tags: [ example ]
-      operationId: setMessage
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              type: string
-        required: true
-      responses:
-        '204':
-          description: Message saved
-        '500':
-          $ref: '#/components/responses/ServerError'
-  /api/example/v1/{resourceType}/{resourceId}/{action}:
-    get:
-      summary: Checks sam access
-      tags: [ example ]
-      operationId: getAction
+  /api/cloudTransparentAccess/v1/{resourceType}/{resourceId}:
+    put:
+      summary: Enables cloud transparent access for the calling user on the specified resource
+      tags: [ cloudTransparentAccess ]
+      operationId: putCloudTransparentAccess
       parameters:
         - name: resourceType
           in: path
@@ -84,34 +71,33 @@ paths:
           required: true
           schema:
             type: string
-        - name: action
+      responses:
+        '204':
+          description: Cloud transparent access enabled
+        '404':
+          description: Resource not found
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      summary: Disables cloud transparent access for the calling user on the specified resource
+      tags: [ cloudTransparentAccess ]
+      operationId: deleteCloudTransparentAccess
+      parameters:
+        - name: resourceType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
           in: path
           required: true
           schema:
             type: string
       responses:
-        '200':
-          description: action access
-          content:
-            application/json:
-              schema:
-                type: boolean
-        '500':
-          $ref: '#/components/responses/ServerError'
-  /api/example/v1/counter:
-    post:
-      summary: increment a metrics counter
-      tags: [ example ]
-      operationId: incrementCounter
-      requestBody:
-        description: tag for counter
-        content:
-          application/json:
-            schema:
-              type: string
-      responses:
         '204':
-          description: success
+          description: Cloud transparent access disabled
+        '404':
+          description: Resource not found
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -151,6 +137,17 @@ components:
             $ref: '#/components/schemas/ErrorReport'
 
   schemas:
+    CloudTransparentAccess:
+      type: object
+      properties:
+        samUserId:
+          type: string
+        resourceType:
+          type: string
+        resourceId:
+          type: string
+        enabled:
+          type: boolean
     ErrorReport:
       type: object
       required: [ message, statusCode ]

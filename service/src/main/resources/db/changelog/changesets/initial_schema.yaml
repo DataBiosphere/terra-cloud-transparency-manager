@@ -1,26 +1,43 @@
 databaseChangeLog:
   - changeSet:
-      id: "not_so_interesting"
-      author: doge
+      id: "initial_setup"
+      author: tlangs
       changes:
         - createTable:
-            tableName: example
+            tableName: cloud_transparent_access
             columns:
               - column:
-                  name: id
-                  type: int
-                  autoIncrement: true
+                  name: sam_user_id
+                  type: text
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_id
+                  name: resource_type_name
                   type: text
                   constraints:
+                    primaryKey: true
                     nullable: false
-                    unique: true
               - column:
-                  name: message
+                  name: resource_id
                   type: text
                   constraints:
+                    primaryKey: true
                     nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: current_timestamp
+              - column:
+                  name: updated_at
+                  type: timestamptz
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: current_timestamp

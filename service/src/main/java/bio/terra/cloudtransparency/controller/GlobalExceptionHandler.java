@@ -1,7 +1,7 @@
 package bio.terra.cloudtransparency.controller;
 
-import bio.terra.common.exception.AbstractGlobalExceptionHandler;
 import bio.terra.cloudtransparency.model.ErrorReport;
+import bio.terra.common.exception.AbstractGlobalExceptionHandler;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

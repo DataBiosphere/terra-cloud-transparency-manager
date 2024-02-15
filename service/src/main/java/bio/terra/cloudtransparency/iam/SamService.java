@@ -1,11 +1,12 @@
 package bio.terra.cloudtransparency.iam;
 
+import bio.terra.cloudtransparency.model.SystemStatusSystems;
 import bio.terra.common.iam.BearerToken;
 import bio.terra.common.sam.SamRetry;
 import bio.terra.common.sam.exception.SamExceptionFactory;
-import bio.terra.cloudtransparency.model.SystemStatusSystems;
 import java.util.List;
 import org.broadinstitute.dsde.workbench.client.sam.ApiException;
+import org.broadinstitute.dsde.workbench.client.sam.model.AccessPolicyResponseEntryV2;
 import org.broadinstitute.dsde.workbench.client.sam.model.SystemStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +23,14 @@ public class SamService {
     this.samClient = samClient;
   }
 
-  public boolean getAction(
-      String resourceType, String resourceId, String action, BearerToken bearerToken) {
+  public List<AccessPolicyResponseEntryV2> getPolicies(
+      String resourceType, String resourceId, BearerToken bearerToken) {
     try {
       return SamRetry.retry(
           () ->
               samClient
                   .resourcesApi(bearerToken.getToken())
-                  .resourcePermissionV2(resourceType, resourceId, action));
+                  .listResourcePoliciesV2(resourceType, resourceId));
     } catch (ApiException e) {
       throw SamExceptionFactory.create(e);
     } catch (InterruptedException e) {
