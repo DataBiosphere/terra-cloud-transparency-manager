@@ -10,9 +10,9 @@ import static org.mockito.Mockito.when;
 import bio.terra.cloudtransparency.dao.CloudTransparentAccessDao;
 import bio.terra.cloudtransparency.model.CloudTransparentAccess;
 import bio.terra.cloudtransparency.model.CloudTransparentAccessRecord;
+import bio.terra.cloudtransparency.util.TestUtils;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,10 +26,11 @@ class CloudTransparentAccessServiceTest {
 
   @Test
   void saveCloudTransparentAccess() {
+    var testUser = TestUtils.testSamUser();
     doNothing().when(cloudTransparentAccessDao).upsertCloudTransparentAccess(any());
     var testAccess =
         new CloudTransparentAccess()
-            .samUserId(Long.toString(new Random().nextLong()))
+            .samUserId(testUser.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceId")
             .enabled(true);
@@ -41,9 +42,10 @@ class CloudTransparentAccessServiceTest {
 
   @Test
   void getCloudTransparentAccessesForUser() {
+    var testUser = TestUtils.testSamUser();
     var testAccessRecord =
         new CloudTransparentAccessRecord(
-            Long.toString(new Random().nextLong()),
+            testUser.getSubjectId(),
             "resourceTypeName",
             "resourceId",
             true,
@@ -51,7 +53,7 @@ class CloudTransparentAccessServiceTest {
             new Date());
     var expectedAccess =
         new CloudTransparentAccess()
-            .samUserId(testAccessRecord.samUserId())
+            .samUserId(testUser.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceId")
             .enabled(true);

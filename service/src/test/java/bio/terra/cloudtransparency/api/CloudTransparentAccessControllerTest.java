@@ -17,7 +17,7 @@ import bio.terra.cloudtransparency.controller.CloudTransparentAccessController;
 import bio.terra.cloudtransparency.iam.SamService;
 import bio.terra.cloudtransparency.model.CloudTransparentAccess;
 import bio.terra.cloudtransparency.service.CloudTransparentAccessService;
-import bio.terra.common.iam.BearerToken;
+import bio.terra.cloudtransparency.util.TestUtils;
 import bio.terra.common.iam.BearerTokenFactory;
 import bio.terra.common.iam.SamUser;
 import bio.terra.common.iam.SamUserFactory;
@@ -27,8 +27,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +54,7 @@ public class CloudTransparentAccessControllerTest {
     return mapper.readValue(result.getResponse().getContentAsString(), valueType);
   }
 
-  private SamUser testUser =
-      new SamUser(
-          "test@email",
-          Long.toString(new Random().nextLong()),
-          new BearerToken(UUID.randomUUID().toString()));
+  private SamUser testUser = TestUtils.testSamUser();
 
   @BeforeEach
   void beforeEach() {

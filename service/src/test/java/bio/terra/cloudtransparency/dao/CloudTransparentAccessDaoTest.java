@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import bio.terra.cloudtransparency.model.CloudTransparentAccess;
 import bio.terra.cloudtransparency.model.CloudTransparentAccessRecord;
+import bio.terra.cloudtransparency.util.TestUtils;
 import java.util.List;
-import java.util.Random;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,10 +14,12 @@ public class CloudTransparentAccessDaoTest extends BaseDaoTest {
 
   @Test
   void testDifferentUserUpsert() {
-    var random = new Random();
+
+    var testUser1 = TestUtils.testSamUser();
+    var testUser2 = TestUtils.testSamUser();
     var access =
         new CloudTransparentAccess()
-            .samUserId(Long.toString(random.nextLong()))
+            .samUserId(testUser1.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceType")
             .enabled(true);
@@ -27,7 +29,7 @@ public class CloudTransparentAccessDaoTest extends BaseDaoTest {
 
     var access2 =
         new CloudTransparentAccess()
-            .samUserId(Long.toString(random.nextLong()))
+            .samUserId(testUser2.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceType")
             .enabled(true);
@@ -46,10 +48,10 @@ public class CloudTransparentAccessDaoTest extends BaseDaoTest {
 
   @Test
   void testRepeatedUpsert() {
-    var samUserId = Long.toString(new Random().nextLong());
+    var testUser = TestUtils.testSamUser();
     var access1 =
         new CloudTransparentAccess()
-            .samUserId(samUserId)
+            .samUserId(testUser.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceType")
             .enabled(true);
@@ -62,7 +64,7 @@ public class CloudTransparentAccessDaoTest extends BaseDaoTest {
 
     var access2 =
         new CloudTransparentAccess()
-            .samUserId(samUserId)
+            .samUserId(testUser.getSubjectId())
             .resourceType("resourceTypeName")
             .resourceId("resourceType")
             .enabled(false);
@@ -78,9 +80,10 @@ public class CloudTransparentAccessDaoTest extends BaseDaoTest {
 
   @Test
   void testNotFound() {
+    var testUser = TestUtils.testSamUser();
     assertTrue(
         cloudTransparentAccessDao
-            .getCloudTransparentAccessesForUser(Long.toString(new Random().nextLong()))
+            .getCloudTransparentAccessesForUser(testUser.getSubjectId())
             .isEmpty());
   }
 }
